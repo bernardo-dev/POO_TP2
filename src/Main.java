@@ -6,7 +6,7 @@ import java.awt.*;
 public class Main {
     enum tipos {VAZIO, MINA, NUMERO}
     public static void main(String[] args) {
-        JFrame frame = new JFrame();
+        JFrame frame = new JFrame(); // nova interface swing
         frame.setSize(550, 550);
         frame.setResizable(false);
         frame.setTitle("Campo Minado");
