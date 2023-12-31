@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Main {
-    enum tipos {VAZIO, MINA, NUMERO}
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setSize(550, 550);

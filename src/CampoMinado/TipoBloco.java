@@ -4,5 +4,5 @@ public enum TipoBloco {
     VAZIO,
     NUMERICO,
     BANDEIRA,
-    EXPLOSIVO
+    MINA
 }
