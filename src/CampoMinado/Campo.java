@@ -104,4 +104,6 @@ public class Campo extends JPanel {
             bloco.setFont(new Font("Arial", Font.BOLD, 20));
         }
     }
+
+    
 }
