@@ -9,31 +9,31 @@ public class Bloco extends JButton {
     private static boolean primeiroClick = false;
     private EstadoBloco estado;
     private TipoBloco tipo;
+    private int numero; // Quantide de bombas ao redor do bloco
 
-    private int numero;
+    static ImageIcon bandeira = new ImageIcon("src/Icones/bandeira.png");
+    static ImageIcon mina = new ImageIcon("src/Icones/mina.png");
 
     public Bloco(int linha, int coluna) {
         estado = EstadoBloco.FECHADO;
         tipo = TipoBloco.VAZIO;
         numero = 0;
         this.setFont(new Font("Arial", Font.PLAIN, 20));
-        this.addMouseListener(new MouseAdapter(){
+        this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                if (SwingUtilities.isLeftMouseButton(e)){
-                    if (!primeiroClick) {
+                if (SwingUtilities.isLeftMouseButton(e)) {
+                    if (!primeiroClick && (tipo == TipoBloco.VAZIO)) {
                         Campo.gerarMinas(10, linha, coluna);
                         primeiroClick = true;
                     }
-                    System.out.println("Bloco" + tipo + ": [" + linha + ", " + coluna + "] Numero: " + numero);
+                    System.out.println("Bloco " + tipo + ": [" + linha + ", " + coluna + "] Numero: " + numero);
                     if (estado == EstadoBloco.FECHADO) {
                         switch (tipo) {
                             case VAZIO:
-                                setEstado(EstadoBloco.ABERTO);
                                 setEnabled(false);
                                 Campo.revelarBlocos(linha, coluna);
                                 break;
                             case NUMERICO:
-                                setEstado(EstadoBloco.ABERTO);
                                 setEnabled(false);
                                 setText(String.valueOf(getNumero()));
                                 break;
@@ -43,27 +43,23 @@ public class Bloco extends JButton {
                         }
                     }
                 } else if (SwingUtilities.isRightMouseButton(e)) {
-                    alterarEstado();
+                    alterarMarcado();
                 }
             }
         });
     }
 
-    private void alterarEstado(){
-        switch (estado){
+    private void alterarMarcado() {
+        switch (estado) {
             case FECHADO:
-                estado = EstadoBloco.ABERTO;
-                System.out.println("[MARCADO]");
+                this.setIconeMarcado();
+                this.setEstado(EstadoBloco.MARCADO);
                 break;
-            case ABERTO:
-                estado = EstadoBloco.FECHADO;
-                System.out.println("[OCULTO]");
+            case MARCADO:
+                this.setIconeVazio();
+                this.setEstado(EstadoBloco.FECHADO);
                 break;
         }
-    }
-
-    public static boolean getPrimeiroClick(){
-        return primeiroClick;
     }
 
     public EstadoBloco getEstado() {
@@ -82,10 +78,24 @@ public class Bloco extends JButton {
         this.tipo = tipo;
     }
 
-    public void incrementarNumero(){
+    public int getNumero() {
+        return numero;
+    }
+
+    public void incrementarNumero() {
         numero++;
     }
-    public int getNumero(){
-        return numero;
+
+    public void setIconeMina() {
+        this.setIcon(mina);
+    }
+
+    public void setIconeMarcado() {
+        this.setIcon(bandeira);
+        this.setEstado(EstadoBloco.MARCADO);
+    }
+
+    public void setIconeVazio() {
+        this.setIcon(null);
     }
 }
