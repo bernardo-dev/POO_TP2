@@ -9,9 +9,17 @@ import java.util.Set;
 public class Campo extends JPanel {
     private static Bloco[][] blocos;
     private static Set<Point> coordenadasMinas = new HashSet<>();
+    private static JLabel labelContador;
+    private static int contador;
+
 
     public Campo() {
         this(10, 10);
+        labelContador = new JLabel();
+        contador = 0;
+        labelContador.setText("Bandeiras: " + String.valueOf(contador));
+        labelContador.setFont(new Font("Arial", Font.PLAIN, 20));
+        this.add(labelContador);
     }
 
     public Campo(int linhas, int colunas) {
@@ -114,4 +122,24 @@ public class Campo extends JPanel {
         }
     }
 
-}
+    public static void incrementarContador(){
+        contador++;
+        atualizarContador();
+    }
+
+    public static void decrementarContador(){
+        if (contador > 0) {  
+            contador--;
+            atualizarContador();
+        }
+    }
+
+    public static void atualizarContador(){
+        labelContador.setText("Bandeiras: " + contador);
+    }
+
+    public static JLabel getLabelContador() {
+        return labelContador;
+    }
+
+ }

@@ -10,14 +10,17 @@ public class Bloco extends JButton {
     private EstadoBloco estado;
     private TipoBloco tipo;
     private int numero; // Quantide de bombas ao redor do bloco
-    private int contador; 
+   // private int contador; 
+    JLabel labelContador;
 
     static ImageIcon bandeira = new ImageIcon("src/Icones/bandeira.png");
     static ImageIcon mina = new ImageIcon("src/Icones/mina.png");
 
     public Bloco(int linha, int coluna) {
+        labelContador = new JLabel();
         estado = EstadoBloco.FECHADO;
         tipo = TipoBloco.VAZIO;
+        
         numero = 0;
         this.setFont(new Font("Arial", Font.PLAIN, 20));
         this.addMouseListener(new MouseAdapter() {
@@ -53,7 +56,7 @@ public class Bloco extends JButton {
     private void alterarMarcado() {
         switch (estado) {
             case FECHADO:
-                this.setIconeMarcado();
+                this.setIconeMarcado(); // colocar aq o contador
                 this.setEstado(EstadoBloco.MARCADO);
                 break;
             case MARCADO:
@@ -94,24 +97,19 @@ public class Bloco extends JButton {
     public void setIconeMarcado() {
         this.setIcon(bandeira);
         this.setEstado(EstadoBloco.MARCADO);
-        this.contador++; // contar o numero de bandeiras marcadas
+        Campo.incrementarContador();
+        
     }
 
     public void setIconeVazio() {
         this.setIcon(null);
         this.setEstado(EstadoBloco.FECHADO);
-        if (this.contador > 0) {
-            this.contador--;
-        }
-    }
-
-    public void setContador(int contador){
-        this.contador = contador;
+        Campo.decrementarContador();
         
     }
 
-    public int getContador(){
-        return contador;
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 
     

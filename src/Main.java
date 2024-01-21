@@ -17,7 +17,8 @@ public class Main {
         frame.setLayout(new BorderLayout());
 
         Campo tabuleiro = new Campo();
-        
+        frame.add(Campo.getLabelContador(), BorderLayout.NORTH);
+
         frame.add(tabuleiro);
 
         frame.setVisible(true);
