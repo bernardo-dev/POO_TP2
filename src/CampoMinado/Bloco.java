@@ -94,17 +94,25 @@ public class Bloco extends JButton {
     public void setIconeMarcado() {
         this.setIcon(bandeira);
         this.setEstado(EstadoBloco.MARCADO);
-        contador++;
+        this.contador++; // contar o numero de bandeiras marcadas
     }
 
     public void setIconeVazio() {
         this.setIcon(null);
         this.setEstado(EstadoBloco.FECHADO);
-        if (contador > 0) {
-            contador--;
+        if (this.contador > 0) {
+            this.contador--;
         }
     }
 
-    //criar um metodo para contar o numero de bandeiras colocadas
+    public void setContador(int contador){
+        this.contador = contador;
+        
+    }
+
+    public int getContador(){
+        return contador;
+    }
+
     
 }
