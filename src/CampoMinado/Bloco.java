@@ -10,6 +10,7 @@ public class Bloco extends JButton {
     private EstadoBloco estado;
     private TipoBloco tipo;
     private int numero; // Quantide de bombas ao redor do bloco
+    private int contador; 
 
     static ImageIcon bandeira = new ImageIcon("src/Icones/bandeira.png");
     static ImageIcon mina = new ImageIcon("src/Icones/mina.png");
@@ -93,9 +94,17 @@ public class Bloco extends JButton {
     public void setIconeMarcado() {
         this.setIcon(bandeira);
         this.setEstado(EstadoBloco.MARCADO);
+        contador++;
     }
 
     public void setIconeVazio() {
         this.setIcon(null);
+        this.setEstado(EstadoBloco.FECHADO);
+        if (contador > 0) {
+            contador--;
+        }
     }
+
+    //criar um metodo para contar o numero de bandeiras colocadas
+    
 }
