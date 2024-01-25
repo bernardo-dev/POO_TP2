@@ -3,6 +3,8 @@ package CampoMinado;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,17 +12,38 @@ public class Campo extends JPanel {
     private static Bloco[][] blocos;
     private static Set<Point> coordenadasMinas = new HashSet<>();
     private static JLabel labelContador;
+    private static JButton botaoReiniciar;
     private static int contador;
-
 
     public Campo() {
         this(10, 10);
         labelContador = new JLabel();
+        botaoReiniciar = new JButton("Reiniciar");
+        botaoReiniciar.setSize(50, 50);
         contador = 0;
         labelContador.setText("Bandeiras: " + String.valueOf(contador));
         labelContador.setFont(new Font("Arial", Font.PLAIN, 20));
         this.add(labelContador);
+        this.add(botaoReiniciar);
+    
+        botaoReiniciar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evento){
+                for (int i = 0; i < blocos.length; i++) {
+                    for (int j = 0; j < blocos[i].length; j++) {
+                        blocos[i][j].reset();
+                    }
+                }
+    
+                coordenadasMinas.clear();
+    
+                contador = 0;
+                atualizarContador();
+            }
+        });
     }
+
+
 
     public Campo(int linhas, int colunas) {
         blocos = new Bloco[linhas][colunas];
@@ -137,5 +160,15 @@ public class Campo extends JPanel {
     public static JLabel getLabelContador() {
         return labelContador;
     }
+
+
+    public static JButton getBotaoReiniciar() {
+        return botaoReiniciar;
+    }
+    
+    public static void setBotaoReiniciar(JButton botaoReiniciar) {
+        Campo.botaoReiniciar = botaoReiniciar;
+    }
+
 
  }
