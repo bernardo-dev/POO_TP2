@@ -18,6 +18,7 @@ public class Main {
 
         Campo tabuleiro = new Campo();
         frame.add(Campo.getLabelContador(), BorderLayout.NORTH);
+        frame.add(Campo.getBotaoReiniciar(), BorderLayout.SOUTH);
 
         frame.add(tabuleiro);
 

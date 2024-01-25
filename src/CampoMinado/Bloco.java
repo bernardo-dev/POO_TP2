@@ -17,7 +17,7 @@ public class Bloco extends JButton {
     static ImageIcon mina = new ImageIcon("src/Icones/mina.png");
 
     public Bloco(int linha, int coluna) {
-        labelContador = new JLabel();
+        //labelContador = new JLabel();
         estado = EstadoBloco.FECHADO;
         tipo = TipoBloco.VAZIO;
         
@@ -110,6 +110,17 @@ public class Bloco extends JButton {
 
     public void setNumero(int numero) {
         this.numero = numero;
+    }
+
+
+    public void reset() {
+        // Redefine o tipo e o estado do bloco
+        this.setTipo(TipoBloco.VAZIO);
+        this.setEstado(EstadoBloco.FECHADO); // todos os blocos tem que ficar fechados
+    
+        // Remove qualquer ícone ou texto que possa estar presente
+        this.setIcon(null);
+        this.setText("");
     }
 
     
