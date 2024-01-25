@@ -48,13 +48,11 @@ public class Campo extends JPanel {
 
             Point coordenada = new Point();
 
-            //System.out.println("Gerou [" + x + ", " + y + "]");
             coordenada.setLocation(x, y);
             coordenadasMinas.add(coordenada);
         }
 
         for (Point p : coordenadasMinas) {
-            System.out.println("Mina [" + p.x + ", " + p.y + "]");
             blocos[p.x][p.y].setTipo(TipoBloco.MINA);
             for (int i = p.x - 1; i <= p.x + 1; i++) {
                 for (int j = p.y - 1; j <= p.y + 1; j++) {
@@ -84,11 +82,9 @@ public class Campo extends JPanel {
             return;
         }
 
-        if (blocos[linha][coluna].getTipo() == TipoBloco.BANDEIRA) {
+        if (blocos[linha][coluna].getEstado() == EstadoBloco.MARCADO) {
             return;
         }
-
-        System.out.println(blocos[linha][coluna].getTipo());
 
         if (blocos[linha][coluna].getTipo() == TipoBloco.NUMERICO) {
             blocos[linha][coluna].setEstado(EstadoBloco.ABERTO);
