@@ -3,43 +3,41 @@ package CampoMinado;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Campo extends JPanel {
     private static Bloco[][] blocos;
-    private static Set<Point> coordenadasMinas = new HashSet<>();
+    private static final Set<Point> coordenadasMinas = new HashSet<>();
     private static JLabel labelContador;
     private static JButton botaoReiniciar;
     private static int contador;
 
     public Campo() {
-        this(10, 10);
+        this(9, 9);
         labelContador = new JLabel();
-        botaoReiniciar = new JButton("Reiniciar");
+        botaoReiniciar = new JButton();
         botaoReiniciar.setSize(50, 50);
-        contador = 0;
-        labelContador.setText("Bandeiras: " + String.valueOf(contador));
+        ImageIcon tuglife = new ImageIcon("src/Icones/tuglife.png");
+        botaoReiniciar.setIcon(tuglife);
+        contador = 10;
+        labelContador.setText(String.valueOf(contador));
         labelContador.setFont(new Font("Arial", Font.PLAIN, 20));
         this.add(labelContador);
         this.add(botaoReiniciar);
     
-        botaoReiniciar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evento){
-                for (int i = 0; i < blocos.length; i++) {
-                    for (int j = 0; j < blocos[i].length; j++) {
-                        blocos[i][j].reset();
-                    }
+        botaoReiniciar.addActionListener(evento -> {
+            Bloco.setPrimeiroClick(false);
+            for (Bloco[] bloco : blocos) {
+                for (Bloco value : bloco) {
+                    value.reset();
                 }
-    
-                coordenadasMinas.clear();
-    
-                contador = 0;
-                atualizarContador();
             }
+
+            coordenadasMinas.clear();
+
+            contador = 10;
+            atualizarContador();
         });
     }
 
@@ -60,8 +58,8 @@ public class Campo extends JPanel {
     // Gera coordenadas unicas para as minas exceto onde o usuario clicou pela primeira vez
     public static void gerarMinas(int quantidade, int linha, int coluna) {
         while (coordenadasMinas.size() < quantidade) {
-            int x = (int) (Math.random() * 10); // Intervalo de 0 a 9
-            int y = (int) (Math.random() * 10);
+            int x = (int) (Math.random() * 9); // Intervalo de 0 a 8
+            int y = (int) (Math.random() * 9);
 
             // Se as coordenadas geradas aleatoriamente sao iguais as coordenadas do bloco onde
             // o usuario clicou pela primeira vez gera outra coordenada
@@ -142,8 +140,10 @@ public class Campo extends JPanel {
     }
 
     public static void incrementarContador(){
-        contador++;
-        atualizarContador();
+        if (contador < 10) {
+            contador++;
+            atualizarContador();
+        }
     }
 
     public static void decrementarContador(){
@@ -154,7 +154,7 @@ public class Campo extends JPanel {
     }
 
     public static void atualizarContador(){
-        labelContador.setText("Bandeiras: " + contador);
+        labelContador.setText(String.valueOf(contador));
     }
 
     public static JLabel getLabelContador() {
@@ -165,10 +165,6 @@ public class Campo extends JPanel {
     public static JButton getBotaoReiniciar() {
         return botaoReiniciar;
     }
-    
-    public static void setBotaoReiniciar(JButton botaoReiniciar) {
-        Campo.botaoReiniciar = botaoReiniciar;
-    }
 
 
- }
+}
