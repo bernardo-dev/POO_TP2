@@ -1,7 +1,10 @@
 import CampoMinado.Campo;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import java.awt.BorderLayout;
 
 
 public class Main {
@@ -32,7 +35,6 @@ public class Main {
         JPanel controles = new JPanel();
         controles.add(Campo.getLabelContador());
         controles.add(Campo.getBotaoReiniciar());
-
 
 
         frame.add(controles, BorderLayout.PAGE_START);

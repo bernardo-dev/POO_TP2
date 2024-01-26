@@ -1,26 +1,26 @@
 package CampoMinado;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.SwingUtilities;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Bloco extends JButton {
+    // serve para detectar quando o usuario clicou pela primeira vez na rodada
     private static boolean primeiroClick = false;
     private EstadoBloco estado;
     private TipoBloco tipo;
     private int numero; // Quantide de bombas ao redor do bloco
-    // private int contador;
-    JLabel labelContador;
 
     static ImageIcon bandeira = new ImageIcon("src/Icones/bandeira.png");
     static ImageIcon mina = new ImageIcon("src/Icones/mina.png");
 
     public Bloco(int linha, int coluna) {
-        //labelContador = new JLabel();
         estado = EstadoBloco.FECHADO;
         tipo = TipoBloco.VAZIO;
-        
+
         numero = 0;
         this.setFont(new Font("Arial", Font.PLAIN, 20));
         this.addMouseListener(new MouseAdapter() {
@@ -53,6 +53,7 @@ public class Bloco extends JButton {
         });
     }
 
+    // Logica das bandeiras, coloca bandeira apenas em blocos que nao foram abertos pelo usuario ainda
     private void alterarMarcado() {
         switch (estado) {
             case FECHADO:
@@ -108,7 +109,7 @@ public class Bloco extends JButton {
         this.setIcon(null);
         this.setEstado(EstadoBloco.FECHADO);
         Campo.incrementarContador();
-        
+
     }
 
     public void setNumero(int numero) {
@@ -122,11 +123,11 @@ public class Bloco extends JButton {
         this.setTipo(TipoBloco.VAZIO);
         this.setEstado(EstadoBloco.FECHADO); // todos os blocos tem que ficar fechados
         this.setNumero(0);
-    
+
         // Remove qualquer ícone ou texto que possa estar presente
         this.setIcon(null);
         this.setText("");
     }
 
-    
+
 }

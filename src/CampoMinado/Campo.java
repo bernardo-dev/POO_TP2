@@ -8,6 +8,7 @@ import java.util.Set;
 
 public class Campo extends JPanel {
     private static Bloco[][] blocos;
+    // Foi usado o HashSet para que cada coordenada gerada seja diferente
     private static final Set<Point> coordenadasMinas = new HashSet<>();
     private static JLabel labelContador;
     private static JButton botaoReiniciar;
@@ -25,7 +26,8 @@ public class Campo extends JPanel {
         labelContador.setFont(new Font("Arial", Font.PLAIN, 20));
         this.add(labelContador);
         this.add(botaoReiniciar);
-    
+
+        // Passa reiniciando cada bloco, o contador e excluindo as coordenadas de mina
         botaoReiniciar.addActionListener(evento -> {
             Bloco.setPrimeiroClick(false);
             for (Bloco[] bloco : blocos) {
@@ -40,7 +42,6 @@ public class Campo extends JPanel {
             atualizarContador();
         });
     }
-
 
 
     public Campo(int linhas, int colunas) {
@@ -73,6 +74,7 @@ public class Campo extends JPanel {
             coordenadasMinas.add(coordenada);
         }
 
+        // Passa por cada mina incrementando o valor numerico dos blocos em volta da mina
         for (Point p : coordenadasMinas) {
             blocos[p.x][p.y].setTipo(TipoBloco.MINA);
             for (int i = p.x - 1; i <= p.x + 1; i++) {
@@ -90,6 +92,7 @@ public class Campo extends JPanel {
         }
     }
 
+    // Revela os blocos vazios recursivamente parando nos blocos numericos e nos blocos marcados
     public static void revelarBlocos(int linha, int coluna) {
         if ((linha < 0) || (linha >= blocos.length)) {
             return;
@@ -117,6 +120,7 @@ public class Campo extends JPanel {
             blocos[linha][coluna].setEnabled(false);
         }
 
+        // Chama recursivamente a funcao ao redor do bloco
         revelarBlocos(linha - 1, coluna - 1);
         revelarBlocos(linha - 1, coluna);
         revelarBlocos(linha - 1, coluna + 1);
@@ -129,6 +133,7 @@ public class Campo extends JPanel {
         revelarBlocos(linha + 1, coluna + 1);
     }
 
+    // Revela a posicao de todas as minas no campo
     public static void revelarMinas() {
 
         for (Point p : coordenadasMinas) {
@@ -139,28 +144,27 @@ public class Campo extends JPanel {
         }
     }
 
-    public static void incrementarContador(){
+    public static void incrementarContador() {
         if (contador < 10) {
             contador++;
             atualizarContador();
         }
     }
 
-    public static void decrementarContador(){
-        if (contador > 0) {  
+    public static void decrementarContador() {
+        if (contador > 0) {
             contador--;
             atualizarContador();
         }
     }
 
-    public static void atualizarContador(){
+    public static void atualizarContador() {
         labelContador.setText(String.valueOf(contador));
     }
 
     public static JLabel getLabelContador() {
         return labelContador;
     }
-
 
     public static JButton getBotaoReiniciar() {
         return botaoReiniciar;
