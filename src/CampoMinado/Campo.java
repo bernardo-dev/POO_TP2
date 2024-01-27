@@ -209,8 +209,10 @@ public class Campo extends JPanel{
        
        // se o numero de bloco aberto for todos os blocos porem sem ser as minas e 
        // se o numero de minas marcadas ou abertas for igual ao numero de minas
-       return contarBlocoAbero == (totalBlocos - totalMinas) && contador == totalMinas; 
-        // se uma dessas condições for verdadeira, vai dar false
+       boolean vitoria = contarBlocoAbero == (totalBlocos - totalMinas) && contador == totalMinas;
+        System.out.println("Verificando vitória: " + vitoria);
+        // se uma dessas condições for verdadeira, vai dar false]
+        return vitoria;
     }
 
     public static void mostrarVitoria(){
