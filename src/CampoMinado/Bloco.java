@@ -26,6 +26,9 @@ public class Bloco extends JButton {
         this.setFont(new Font("Arial", Font.PLAIN, 20));
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
+                if (Campo.jogoAcabou) {
+                    return;
+                }
                 if (SwingUtilities.isLeftMouseButton(e)) {
                     if (!primeiroClick && (tipo == TipoBloco.VAZIO)) {
                         Campo.gerarMinas(10, linha, coluna);
@@ -45,6 +48,8 @@ public class Bloco extends JButton {
                             case MINA:
                                 Campo.revelarMinas(); // colocar um pop-up indicando q a pessoa perdeu
                                 JOptionPane.showMessageDialog(null, "Que pena, você perdeu!", "Derrota!", JOptionPane.ERROR_MESSAGE);
+                                // colocando um icon de carinha triste
+
                                 break;
                         }
                     }

@@ -13,6 +13,7 @@ public class Campo extends JPanel{
     private static JLabel labelContador;
     private static JButton botaoReiniciar;
     private static int contador;
+    public static boolean jogoAcabou = false;
     //private static JLabel labelVitoria;
 
     public Campo() {
@@ -147,7 +148,10 @@ public class Campo extends JPanel{
             // bloco.setEnabled(false);
             bloco.setIconeMina();
         }
+
+        jogoAcabou = true;
     }
+    
 
     public static void incrementarContador() {
         if (contador < 10) {
@@ -222,8 +226,8 @@ public class Campo extends JPanel{
     }
 
     public static void mostrarVitoria(){
-        System.out.println("Mostrando mensagem de vitória");
         JOptionPane.showMessageDialog(null, "Parabéns, você ganhou!", "Vitória", JOptionPane.INFORMATION_MESSAGE);
+
     }
 
     
