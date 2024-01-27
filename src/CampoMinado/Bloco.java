@@ -2,6 +2,7 @@ package CampoMinado;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
@@ -42,7 +43,8 @@ public class Bloco extends JButton {
                                 setText(String.valueOf(getNumero()));
                                 break;
                             case MINA:
-                                Campo.revelarMinas();
+                                Campo.revelarMinas(); // colocar um pop-up indicando q a pessoa perdeu
+                                JOptionPane.showMessageDialog(null, "Que pena, você perdeu", "Derrota!", JOptionPane.INFORMATION_MESSAGE);
                                 break;
                         }
                     }

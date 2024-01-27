@@ -13,6 +13,7 @@ public class Campo extends JPanel{
     private static JLabel labelContador;
     private static JButton botaoReiniciar;
     private static int contador;
+    //private static JLabel labelVitoria;
 
     public Campo() {
         this(9, 9);
@@ -131,6 +132,14 @@ public class Campo extends JPanel{
         revelarBlocos(linha + 1, coluna - 1);
         revelarBlocos(linha + 1, coluna);
         revelarBlocos(linha + 1, coluna + 1);
+
+        if (verificarVitoria()){
+            mostrarVitoria();
+        }
+       // else {
+          //  JOptionPane.showMessageDialog(null, "Você perdeu!", "Derrota", JOptionPane.INFORMATION_MESSAGE);
+
+       // }
     }
 
     // Revela a posicao de todas as minas no campo
@@ -198,11 +207,16 @@ public class Campo extends JPanel{
        int totalBlocos = blocos.length * blocos[0].length;
        int totalMinas = coordenadasMinas.size();
        
-       // // se o numero de minas marcadas for igual ao numero de minas no campo e se o numero de blocos abertos for igual
-       // ao numero de blocos no campo menos o numero de minas no campo
+       // se o numero de bloco aberto for todos os blocos porem sem ser as minas e 
+       // se o numero de minas marcadas ou abertas for igual ao numero de minas
        return contarBlocoAbero == (totalBlocos - totalMinas) && contador == totalMinas; 
         // se uma dessas condições for verdadeira, vai dar false
     }
 
+    public static void mostrarVitoria(){
+        JOptionPane.showMessageDialog(null, "Parabéns, você ganhou!", "Vitória", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    
 
 }
