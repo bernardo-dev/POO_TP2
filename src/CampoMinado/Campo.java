@@ -13,6 +13,7 @@ public class Campo extends JPanel{
     private static JLabel labelContador;
     private static JButton botaoReiniciar;
     private static int contador;
+    private static boolean minasGeradas = false;
     //private static JLabel labelVitoria;
 
     public Campo() {
@@ -73,6 +74,8 @@ public class Campo extends JPanel{
 
             coordenada.setLocation(x, y);
             coordenadasMinas.add(coordenada);
+
+            minasGeradas = true;
         }
 
         // Passa por cada mina incrementando o valor numerico dos blocos em volta da mina
@@ -187,6 +190,11 @@ public class Campo extends JPanel{
     public static boolean verificarVitoria() {
         int contador = 0; // conta o numero de minas que foram marcadas ou abertas
         int contarBlocoAbero = 0;
+
+        // // Se as minas ainda não foram geradas, não verifique a vitória
+        if (!minasGeradas) {
+            return false;
+        }
 
         for (int i =0; i < blocos.length; i++){
             for (int j =0; j < blocos[i].length; j++){
