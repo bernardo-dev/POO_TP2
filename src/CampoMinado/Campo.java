@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Campo extends JPanel {
+public class Campo extends JPanel{
     private static Bloco[][] blocos;
     // Foi usado o HashSet para que cada coordenada gerada seja diferente
     private static final Set<Point> coordenadasMinas = new HashSet<>();
@@ -168,6 +168,40 @@ public class Campo extends JPanel {
 
     public static JButton getBotaoReiniciar() {
         return botaoReiniciar;
+    }
+
+    // verificar se o usuario ganhou
+    // quando ele nao clica em nenhum bloco que nao seja mina
+
+
+
+    public static boolean verificarVitoria() {
+        int contador = 0; // conta o numero de minas que foram marcadas ou abertas
+        int contarBlocoAbero = 0;
+
+        for (int i =0; i < blocos.length; i++){
+            for (int j =0; j < blocos[i].length; j++){
+                if (blocos[i][j].getTipo() == TipoBloco.MINA){
+                    if (blocos[i][j].getEstado() == EstadoBloco.MARCADO){ // se os blocos marcados forem minas
+                        contador++;
+                    }
+
+                }
+
+
+                else if (blocos[i][j].getEstado() == EstadoBloco.ABERTO && blocos[i][j].getTipo() != TipoBloco.MINA){ // se os blocos abertos nao forem minas
+                    contarBlocoAbero++;
+                }
+            }
+        }
+
+       int totalBlocos = blocos.length * blocos[0].length;
+       int totalMinas = coordenadasMinas.size();
+       
+       // // se o numero de minas marcadas for igual ao numero de minas no campo e se o numero de blocos abertos for igual
+       // ao numero de blocos no campo menos o numero de minas no campo
+       return contarBlocoAbero == (totalBlocos - totalMinas) && contador == totalMinas; 
+        // se uma dessas condições for verdadeira, vai dar false
     }
 
 
