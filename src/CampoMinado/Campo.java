@@ -133,13 +133,7 @@ public class Campo extends JPanel{
         revelarBlocos(linha + 1, coluna);
         revelarBlocos(linha + 1, coluna + 1);
 
-        if (verificarVitoria()){
-            mostrarVitoria();
-        }
-       // else {
-          //  JOptionPane.showMessageDialog(null, "Você perdeu!", "Derrota", JOptionPane.INFORMATION_MESSAGE);
-
-       // }
+       
     }
 
     // Revela a posicao de todas as minas no campo
@@ -191,15 +185,17 @@ public class Campo extends JPanel{
         for (int i =0; i < blocos.length; i++){
             for (int j =0; j < blocos[i].length; j++){
                 if (blocos[i][j].getTipo() == TipoBloco.MINA){
-                    if (blocos[i][j].getEstado() == EstadoBloco.MARCADO){ // se os blocos marcados forem minas
+                    if (blocos[i][j].getEstado() == EstadoBloco.MARCADO || blocos[i][j].getEstado() == EstadoBloco.ABERTO){ // se os blocos marcados forem minas
                         contador++;
+                        System.out.println("Contador: " + contador);
                     }
 
                 }
 
 
-                else if (blocos[i][j].getEstado() == EstadoBloco.ABERTO && blocos[i][j].getTipo() != TipoBloco.MINA){ // se os blocos abertos nao forem minas
+                else if (blocos[i][j].getEstado() == EstadoBloco.ABERTO){ // se os blocos abertos nao forem minas
                     contarBlocoAbero++;
+                    System.out.println("Contar bloco aberto: " + contarBlocoAbero);
                 }
             }
         }
@@ -210,12 +206,12 @@ public class Campo extends JPanel{
        // se o numero de bloco aberto for todos os blocos porem sem ser as minas e 
        // se o numero de minas marcadas ou abertas for igual ao numero de minas
        boolean vitoria = contarBlocoAbero == (totalBlocos - totalMinas) && contador == totalMinas;
-        System.out.println("Verificando vitória: " + vitoria);
-        // se uma dessas condições for verdadeira, vai dar false]
-        return vitoria;
+       System.out.println("Verificando vitória: " + vitoria);
+       return vitoria;
     }
 
     public static void mostrarVitoria(){
+        System.out.println("Mostrando mensagem de vitória");
         JOptionPane.showMessageDialog(null, "Parabéns, você ganhou!", "Vitória", JOptionPane.INFORMATION_MESSAGE);
     }
 

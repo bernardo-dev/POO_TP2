@@ -61,6 +61,9 @@ public class Bloco extends JButton {
             case FECHADO:
                 this.setIconeMarcado();
                 this.setEstado(EstadoBloco.MARCADO);
+                if (Campo.verificarVitoria()) {
+                    Campo.mostrarVitoria();
+                }
                 break;
             case MARCADO:
                 this.setIconeVazio();
