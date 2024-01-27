@@ -78,6 +78,10 @@ public class Bloco extends JButton {
         Bloco.primeiroClick = primeiroClick;
     }
 
+    public static boolean getPrimeiroClick() {
+        return primeiroClick;
+    }
+
     public EstadoBloco getEstado() {
         return estado;
     }
