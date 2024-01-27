@@ -104,6 +104,7 @@ public class Campo extends JPanel{
         }
 
         if (blocos[linha][coluna].getEstado() == EstadoBloco.ABERTO) {
+           // verificarVitoria();
             return;
         }
 
@@ -173,6 +174,11 @@ public class Campo extends JPanel{
         return botaoReiniciar;
     }
 
+    public static int getContador(){
+        return contador;
+    }
+
+
     // verificar se o usuario ganhou
     // quando ele nao clica em nenhum bloco que nao seja mina
 
@@ -184,13 +190,12 @@ public class Campo extends JPanel{
 
         for (int i =0; i < blocos.length; i++){
             for (int j =0; j < blocos[i].length; j++){
-                if (blocos[i][j].getTipo() == TipoBloco.MINA){
-                    if (blocos[i][j].getEstado() == EstadoBloco.MARCADO || blocos[i][j].getEstado() == EstadoBloco.ABERTO){ // se os blocos marcados forem minas
-                        contador++;
-                        System.out.println("Contador: " + contador);
-                    }
-
-                }
+               if (blocos[i][j].getEstado() == EstadoBloco.MARCADO || blocos[i][j].getEstado() == EstadoBloco.ABERTO){
+                   if (blocos[i][j].getTipo() == TipoBloco.MINA){
+                       contador++;
+                       System.out.println("Contador: " + contador);
+                   }
+               }
 
 
                 else if (blocos[i][j].getEstado() == EstadoBloco.ABERTO){ // se os blocos abertos nao forem minas

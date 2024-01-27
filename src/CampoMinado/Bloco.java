@@ -59,11 +59,13 @@ public class Bloco extends JButton {
     private void alterarMarcado() {
         switch (estado) {
             case FECHADO:
+            if (Campo.getContador() > 0) {
                 this.setIconeMarcado();
                 this.setEstado(EstadoBloco.MARCADO);
                 if (Campo.verificarVitoria()) {
                     Campo.mostrarVitoria();
                 }
+            }
                 break;
             case MARCADO:
                 this.setIconeVazio();
@@ -108,6 +110,12 @@ public class Bloco extends JButton {
         this.setIcon(bandeira);
         this.setEstado(EstadoBloco.MARCADO);
         Campo.decrementarContador();
+        //if (Campo.verificarVitoria()) {
+      //      Campo.mostrarVitoria();
+        //}
+
+        // tem que ter um limite de 10 bandeiras colocadas
+
     }
 
     public void setIconeVazio() {
