@@ -1,11 +1,7 @@
 import CampoMinado.Campo;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
+import javax.swing.*;
 import java.awt.BorderLayout;
-
 
 public class Main {
     public static void main(String[] args) {

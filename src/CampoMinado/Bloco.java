@@ -5,6 +5,8 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -30,47 +32,64 @@ public class Bloco extends JButton {
                     return;
                 }
                 if (SwingUtilities.isLeftMouseButton(e)) {
-                    if (!primeiroClick && (tipo == TipoBloco.VAZIO)) {
-                        Campo.gerarMinas(10, linha, coluna);
-                        primeiroClick = true;
-                    }
-
-                    if (estado == EstadoBloco.FECHADO) {
-                        switch (tipo) {
-                            case VAZIO:
-                                Campo.revelarBlocos(linha, coluna);
-                                break;
-                            case NUMERICO:
-                                setEnabled(false);
-                                setEstado(EstadoBloco.ABERTO);
-                                setText(String.valueOf(getNumero()));
-                                break;
-                            case MINA:
-                                Campo.revelarMinas(); // colocar um pop-up indicando q a pessoa perdeu
-                                JOptionPane.showMessageDialog(null, "Que pena, você perdeu!", "Derrota!", JOptionPane.ERROR_MESSAGE);
-                                // colocando um icon de carinha triste
-
-                                break;
-                        }
-                    }
+                    tentarAbrir(linha, coluna);
                 } else if (SwingUtilities.isRightMouseButton(e)) {
                     alterarMarcado();
                 }
             }
         });
+
+        this.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_ENTER:
+                        tentarAbrir(linha, coluna);
+                        break;
+                    case KeyEvent.VK_SPACE:
+                        alterarMarcado();
+                        break;
+                }
+            }
+        });
+    }
+
+    private void tentarAbrir(int linha, int coluna) {
+        if (!primeiroClick && (tipo == TipoBloco.VAZIO) && (estado != EstadoBloco.MARCADO)) {
+            Campo.gerarMinas(10, linha, coluna);
+            primeiroClick = true;
+        }
+        if (estado == EstadoBloco.FECHADO) {
+            switch (tipo) {
+                case VAZIO:
+                    Campo.revelarBlocos(linha, coluna);
+                    break;
+                case NUMERICO:
+                    setEnabled(false);
+                    setEstado(EstadoBloco.ABERTO);
+                    setText(String.valueOf(getNumero()));
+                    break;
+                case MINA:
+                    Campo.revelarMinas(); // colocar um pop-up indicando q a pessoa perdeu
+                    JOptionPane.showMessageDialog(null, "Que pena, você perdeu!", "Derrota!", JOptionPane.ERROR_MESSAGE);
+                    // colocando um icon de carinha triste
+
+                    break;
+            }
+        }
     }
 
     // Logica das bandeiras, coloca bandeira apenas em blocos que nao foram abertos pelo usuario ainda
     private void alterarMarcado() {
         switch (estado) {
             case FECHADO:
-            if (Campo.getContador() > 0) {
-                this.setIconeMarcado();
-                this.setEstado(EstadoBloco.MARCADO);
-                if (Campo.verificarVitoria()) {
-                    Campo.mostrarVitoria();
+                if (Campo.getContador().getValue() > 0) {
+                    this.setIconeMarcado();
+                    this.setEstado(EstadoBloco.MARCADO);
+                    if (Campo.verificarVitoria()) {
+                        Campo.mostrarVitoria();
+                    }
                 }
-            }
                 break;
             case MARCADO:
                 this.setIconeVazio();
@@ -118,26 +137,23 @@ public class Bloco extends JButton {
     public void setIconeMarcado() {
         this.setIcon(bandeira);
         this.setEstado(EstadoBloco.MARCADO);
-        Campo.decrementarContador();
+        Campo.getContador().decrementarContador();
         //if (Campo.verificarVitoria()) {
-      //      Campo.mostrarVitoria();
+        //      Campo.mostrarVitoria();
         //}
 
         // tem que ter um limite de 10 bandeiras colocadas
-
     }
 
     public void setIconeVazio() {
         this.setIcon(null);
         this.setEstado(EstadoBloco.FECHADO);
-        Campo.incrementarContador();
-
+        Campo.getContador().incrementarContador();
     }
 
     public void setNumero(int numero) {
         this.numero = numero;
     }
-
 
     public void reset() {
         // Redefine o tipo e o estado do bloco
@@ -150,6 +166,4 @@ public class Bloco extends JButton {
         this.setIcon(null);
         this.setText("");
     }
-
-
 }
