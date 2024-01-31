@@ -57,6 +57,8 @@ public class Main {
                 frame.repaint();
                 glassPane.setVisible(true); // Torna o GlassPane visível
 
+                frame.setSize(800, 800);
+
             }
         }
     });
@@ -70,6 +72,8 @@ public class Main {
             frame.revalidate();
             frame.repaint();
             glassPane.setVisible(false); // Torna o GlassPane invisível
+            frame.setSize(550, 550);
+
 
         }
     });
