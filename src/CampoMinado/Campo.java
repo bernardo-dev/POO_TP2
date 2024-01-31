@@ -3,46 +3,49 @@ package CampoMinado;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Campo extends JPanel {
+public class Campo extends JPanel{
     private static Bloco[][] blocos;
-    private static Set<Point> coordenadasMinas = new HashSet<>();
+    // Foi usado o HashSet para que cada coordenada gerada seja diferente
+    private static final Set<Point> coordenadasMinas = new HashSet<>();
     private static JLabel labelContador;
     private static JButton botaoReiniciar;
     private static int contador;
+    public static boolean jogoAcabou = false;
+    //private static JLabel labelVitoria;
 
     public Campo() {
-        this(10, 10);
+        this(9, 9);
         labelContador = new JLabel();
-        botaoReiniciar = new JButton("Reiniciar");
+        botaoReiniciar = new JButton();
         botaoReiniciar.setSize(50, 50);
-        contador = 0;
-        labelContador.setText("Bandeiras: " + String.valueOf(contador));
+        ImageIcon tuglife = new ImageIcon("src/Icones/tuglife.png");
+        botaoReiniciar.setIcon(tuglife);
+        contador = 10;
+        labelContador.setText(String.valueOf(contador));
         labelContador.setFont(new Font("Arial", Font.PLAIN, 20));
         this.add(labelContador);
         this.add(botaoReiniciar);
-    
-        botaoReiniciar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evento){
-                for (int i = 0; i < blocos.length; i++) {
-                    for (int j = 0; j < blocos[i].length; j++) {
-                        blocos[i][j].reset();
-                    }
+
+        // Passa reiniciando cada bloco, o contador e excluindo as coordenadas de mina
+        botaoReiniciar.addActionListener(evento -> {
+            Bloco.setPrimeiroClick(false);
+            for (Bloco[] bloco : blocos) {
+                for (Bloco value : bloco) {
+                    value.reset();
                 }
-    
-                coordenadasMinas.clear();
-    
-                contador = 0;
-                atualizarContador();
             }
+
+            coordenadasMinas.clear();
+
+            contador = 10;
+            labelContador.setText(String.valueOf(contador));
+            jogoAcabou = false;
+
         });
     }
-
 
 
     public Campo(int linhas, int colunas) {
@@ -60,8 +63,8 @@ public class Campo extends JPanel {
     // Gera coordenadas unicas para as minas exceto onde o usuario clicou pela primeira vez
     public static void gerarMinas(int quantidade, int linha, int coluna) {
         while (coordenadasMinas.size() < quantidade) {
-            int x = (int) (Math.random() * 10); // Intervalo de 0 a 9
-            int y = (int) (Math.random() * 10);
+            int x = (int) (Math.random() * 9); // Intervalo de 0 a 8
+            int y = (int) (Math.random() * 9);
 
             // Se as coordenadas geradas aleatoriamente sao iguais as coordenadas do bloco onde
             // o usuario clicou pela primeira vez gera outra coordenada
@@ -71,13 +74,13 @@ public class Campo extends JPanel {
 
             Point coordenada = new Point();
 
-            //System.out.println("Gerou [" + x + ", " + y + "]");
             coordenada.setLocation(x, y);
             coordenadasMinas.add(coordenada);
+
         }
 
+        // Passa por cada mina incrementando o valor numerico dos blocos em volta da mina
         for (Point p : coordenadasMinas) {
-            System.out.println("Mina [" + p.x + ", " + p.y + "]");
             blocos[p.x][p.y].setTipo(TipoBloco.MINA);
             for (int i = p.x - 1; i <= p.x + 1; i++) {
                 for (int j = p.y - 1; j <= p.y + 1; j++) {
@@ -94,6 +97,7 @@ public class Campo extends JPanel {
         }
     }
 
+    // Revela os blocos vazios recursivamente parando nos blocos numericos e nos blocos marcados
     public static void revelarBlocos(int linha, int coluna) {
         if ((linha < 0) || (linha >= blocos.length)) {
             return;
@@ -104,14 +108,13 @@ public class Campo extends JPanel {
         }
 
         if (blocos[linha][coluna].getEstado() == EstadoBloco.ABERTO) {
+           // verificarVitoria();
             return;
         }
 
-        if (blocos[linha][coluna].getTipo() == TipoBloco.BANDEIRA) {
+        if (blocos[linha][coluna].getEstado() == EstadoBloco.MARCADO) {
             return;
         }
-
-        System.out.println(blocos[linha][coluna].getTipo());
 
         if (blocos[linha][coluna].getTipo() == TipoBloco.NUMERICO) {
             blocos[linha][coluna].setEstado(EstadoBloco.ABERTO);
@@ -123,6 +126,7 @@ public class Campo extends JPanel {
             blocos[linha][coluna].setEnabled(false);
         }
 
+        // Chama recursivamente a funcao ao redor do bloco
         revelarBlocos(linha - 1, coluna - 1);
         revelarBlocos(linha - 1, coluna);
         revelarBlocos(linha - 1, coluna + 1);
@@ -133,8 +137,11 @@ public class Campo extends JPanel {
         revelarBlocos(linha + 1, coluna - 1);
         revelarBlocos(linha + 1, coluna);
         revelarBlocos(linha + 1, coluna + 1);
+
+       
     }
 
+    // Revela a posicao de todas as minas no campo
     public static void revelarMinas() {
 
         for (Point p : coordenadasMinas) {
@@ -143,36 +150,87 @@ public class Campo extends JPanel {
             // bloco.setEnabled(false);
             bloco.setIconeMina();
         }
-    }
 
-    public static void incrementarContador(){
-        contador++;
-        atualizarContador();
+        jogoAcabou = true;
     }
+    
 
-    public static void decrementarContador(){
-        if (contador > 0) {  
-            contador--;
-            atualizarContador();
+    public static void incrementarContador() {
+        if (contador < 10) {
+            contador++;
+            labelContador.setText(String.valueOf(contador));
         }
     }
 
-    public static void atualizarContador(){
-        labelContador.setText("Bandeiras: " + contador);
+    public static void decrementarContador() {
+        if (contador > 0) {
+            contador--;
+            labelContador.setText(String.valueOf(contador));
+        }
     }
+
+    
 
     public static JLabel getLabelContador() {
+        labelContador.setText(String.valueOf(contador)); // Inicializa o texto do label com o valor do contador
         return labelContador;
     }
-
 
     public static JButton getBotaoReiniciar() {
         return botaoReiniciar;
     }
-    
-    public static void setBotaoReiniciar(JButton botaoReiniciar) {
-        Campo.botaoReiniciar = botaoReiniciar;
+
+    public static int getContador(){
+        return contador;
     }
 
 
- }
+    // verificar se o usuario ganhou
+    // quando ele nao clica em nenhum bloco que nao seja mina
+
+
+
+    public static boolean verificarVitoria() {
+        int contador = 0; // conta o numero de minas que foram marcadas ou abertas
+        int contarBlocoAbero = 0;
+
+        // // Se as minas ainda não foram geradas, não verifique a vitória
+        if (!Bloco.getPrimeiroClick()) {
+            return false;
+        }
+
+        for (int i =0; i < blocos.length; i++){
+            for (int j =0; j < blocos[i].length; j++){
+               if (blocos[i][j].getEstado() == EstadoBloco.MARCADO || blocos[i][j].getEstado() == EstadoBloco.ABERTO){
+                   if (blocos[i][j].getTipo() == TipoBloco.MINA){
+                       contador++;
+                       System.out.println("Contador: " + contador);
+                   }
+               }
+
+
+                else if (blocos[i][j].getEstado() == EstadoBloco.ABERTO){ // se os blocos abertos nao forem minas
+                    contarBlocoAbero++;
+                    System.out.println("Contar bloco aberto: " + contarBlocoAbero);
+                }
+            }
+        }
+
+       int totalBlocos = blocos.length * blocos[0].length;
+       int totalMinas = coordenadasMinas.size();
+       
+       // se o numero de bloco aberto for todos os blocos porem sem ser as minas e 
+       // se o numero de minas marcadas ou abertas for igual ao numero de minas
+       boolean vitoria =  contarBlocoAbero == totalBlocos - totalMinas || contador == totalMinas;
+       System.out.println("Verificando vitória: " + vitoria);
+       return vitoria;
+    }
+
+    public static void mostrarVitoria(){
+        JOptionPane.showMessageDialog(null, "Parabéns, você ganhou!", "Vitória", JOptionPane.INFORMATION_MESSAGE);
+
+    }
+
+    
+
+}

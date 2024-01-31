@@ -1,48 +1,55 @@
 package CampoMinado;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Bloco extends JButton {
+    // serve para detectar quando o usuario clicou pela primeira vez na rodada
     private static boolean primeiroClick = false;
     private EstadoBloco estado;
     private TipoBloco tipo;
     private int numero; // Quantide de bombas ao redor do bloco
-   // private int contador; 
-    JLabel labelContador;
 
     static ImageIcon bandeira = new ImageIcon("src/Icones/bandeira.png");
     static ImageIcon mina = new ImageIcon("src/Icones/mina.png");
 
     public Bloco(int linha, int coluna) {
-        //labelContador = new JLabel();
         estado = EstadoBloco.FECHADO;
         tipo = TipoBloco.VAZIO;
-        
+
         numero = 0;
         this.setFont(new Font("Arial", Font.PLAIN, 20));
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
+                if (Campo.jogoAcabou) {
+                    return;
+                }
                 if (SwingUtilities.isLeftMouseButton(e)) {
                     if (!primeiroClick && (tipo == TipoBloco.VAZIO)) {
                         Campo.gerarMinas(10, linha, coluna);
                         primeiroClick = true;
                     }
-                    System.out.println("Bloco " + tipo + ": [" + linha + ", " + coluna + "] Numero: " + numero);
+
                     if (estado == EstadoBloco.FECHADO) {
                         switch (tipo) {
                             case VAZIO:
-                                setEnabled(false);
                                 Campo.revelarBlocos(linha, coluna);
                                 break;
                             case NUMERICO:
                                 setEnabled(false);
+                                setEstado(EstadoBloco.ABERTO);
                                 setText(String.valueOf(getNumero()));
                                 break;
                             case MINA:
-                                Campo.revelarMinas();
+                                Campo.revelarMinas(); // colocar um pop-up indicando q a pessoa perdeu
+                                JOptionPane.showMessageDialog(null, "Que pena, você perdeu!", "Derrota!", JOptionPane.ERROR_MESSAGE);
+                                // colocando um icon de carinha triste
+
                                 break;
                         }
                     }
@@ -53,17 +60,35 @@ public class Bloco extends JButton {
         });
     }
 
+    // Logica das bandeiras, coloca bandeira apenas em blocos que nao foram abertos pelo usuario ainda
     private void alterarMarcado() {
         switch (estado) {
             case FECHADO:
-                this.setIconeMarcado(); // colocar aq o contador
+            if (Campo.getContador() > 0) {
+                this.setIconeMarcado();
                 this.setEstado(EstadoBloco.MARCADO);
+                this.setIcon(bandeira); // Adiciona o ícone da bandeira
+                if (Campo.verificarVitoria()) {
+                    Campo.mostrarVitoria();
+                }
+                
+            }
                 break;
             case MARCADO:
                 this.setIconeVazio();
                 this.setEstado(EstadoBloco.FECHADO);
+                this.setIcon(null); // Remove o ícone da bandeira
+
                 break;
         }
+    }
+
+    public static void setPrimeiroClick(boolean primeiroClick) {
+        Bloco.primeiroClick = primeiroClick;
+    }
+
+    public static boolean getPrimeiroClick() {
+        return primeiroClick;
     }
 
     public EstadoBloco getEstado() {
@@ -97,15 +122,16 @@ public class Bloco extends JButton {
     public void setIconeMarcado() {
         this.setIcon(bandeira);
         this.setEstado(EstadoBloco.MARCADO);
-        Campo.incrementarContador();
+        Campo.decrementarContador();
         
+
     }
 
     public void setIconeVazio() {
         this.setIcon(null);
         this.setEstado(EstadoBloco.FECHADO);
-        Campo.decrementarContador();
-        
+        Campo.incrementarContador();
+
     }
 
     public void setNumero(int numero) {
@@ -115,13 +141,18 @@ public class Bloco extends JButton {
 
     public void reset() {
         // Redefine o tipo e o estado do bloco
+        this.setEnabled(true);
         this.setTipo(TipoBloco.VAZIO);
         this.setEstado(EstadoBloco.FECHADO); // todos os blocos tem que ficar fechados
-    
+        this.setNumero(0);
+
         // Remove qualquer ícone ou texto que possa estar presente
         this.setIcon(null);
         this.setText("");
+
+        // Redefine o estado do jogo
+        setPrimeiroClick(false);
     }
 
-    
+
 }
