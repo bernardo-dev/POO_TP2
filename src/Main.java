@@ -5,6 +5,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import java.awt.BorderLayout;
 
 public class Main {
     public static void main(String[] args) {
@@ -39,6 +44,31 @@ public class Main {
 
         frame.add(controles, BorderLayout.PAGE_START);
         frame.add(tabuleiro, BorderLayout.CENTER);
+
+        // Cria um painel transparente
+        JPanel glassPane = new JPanel();
+        glassPane.setOpaque(false);
+        glassPane.addMouseMotionListener(new MouseAdapter() {
+        public void mouseMoved(MouseEvent e) {
+            Point mouseLocation = e.getLocationOnScreen();
+            Point frameLocation = frame.getLocationOnScreen();
+            System.out.println("Mouse moved to (" + mouseLocation.x + ", " + mouseLocation.y + ")");
+            // Verifica se o mouse está no canto inferior esquerdo
+            if (mouseLocation.x - frameLocation.x < 50 && mouseLocation.y - frameLocation.y > frame.getHeight() - 50) {
+                // Substitui a interface do jogo pelo disfarce
+                frame.getContentPane().removeAll();
+                System.out.print("Entrou no canto inferior esquerdo");
+                JLabel disfarce = new JLabel(new ImageIcon("src/Icones/telaDisfarce.jpeg"));
+                frame.add(disfarce);
+                frame.revalidate();
+                frame.repaint();
+            }
+        }
+    });
+
+// Define o painel como o GlassPane do JFrame
+frame.setGlassPane(glassPane);
+glassPane.setVisible(true);
 
         frame.setVisible(true);
     }
