@@ -1,7 +1,10 @@
 import CampoMinado.Campo;
+import CampoMinado.Direcao;
 
 import javax.swing.*;
-import java.awt.BorderLayout;
+import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Main {
     public static void main(String[] args) {
@@ -18,7 +21,8 @@ public class Main {
         ImageIcon flag = new ImageIcon("src/Icones/mina.png");
 
         JFrame frame = new JFrame(); // nova interface swing
-        frame.setSize(550, 550);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setMinimumSize(new Dimension(600,600));
         frame.setResizable(false);
         frame.setTitle("Campo Minado");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

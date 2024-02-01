@@ -4,7 +4,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -17,12 +17,16 @@ public class Bloco extends JButton {
     private TipoBloco tipo;
     private int numero; // Quantide de bombas ao redor do bloco
 
+    private Color corOriginal;
+
     static ImageIcon bandeira = new ImageIcon("src/Icones/bandeira.png");
     static ImageIcon mina = new ImageIcon("src/Icones/mina.png");
 
     public Bloco(int linha, int coluna) {
         estado = EstadoBloco.FECHADO;
         tipo = TipoBloco.VAZIO;
+        this.corOriginal = getBackground();
+        this.setMaximumSize(new Dimension(50, 50));
 
         numero = 0;
         this.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -65,7 +69,8 @@ public class Bloco extends JButton {
                     Campo.revelarBlocos(linha, coluna);
                     break;
                 case NUMERICO:
-                    setEnabled(false);
+                    // setEnabled(false);
+                    setBackground(Color.GRAY);
                     setEstado(EstadoBloco.ABERTO);
                     setText(String.valueOf(getNumero()));
                     break;
@@ -157,7 +162,8 @@ public class Bloco extends JButton {
 
     public void reset() {
         // Redefine o tipo e o estado do bloco
-        this.setEnabled(true);
+        // this.setEnabled(true);
+        this.setBackground(corOriginal);
         this.setTipo(TipoBloco.VAZIO);
         this.setEstado(EstadoBloco.FECHADO); // todos os blocos tem que ficar fechados
         this.setNumero(0);

@@ -24,6 +24,7 @@ public class Campo extends JPanel {
         blocos = new Bloco[linhas][colunas];
         this.setLayout(new GridLayout(linhas, colunas));
 
+        // Inicializa cada bloco e adiciona o controle por teclado
         for (int i = 0; i < linhas; i++) {
             for (int j = 0; j < colunas; j++) {
                 blocos[i][j] = new Bloco(i, j);
@@ -68,10 +69,12 @@ public class Campo extends JPanel {
                                     blocos[linhaAtual][colunaAtual + 1].requestFocus();
                                 }
                                 break;
+                            case KeyEvent.VK_R:
+                                BotaoReiniciar.reiniciar();
+                                break;
                         }
                     }
                 });
-
                 this.add(blocos[i][j]);
             }
         }
@@ -82,9 +85,6 @@ public class Campo extends JPanel {
 
         this.add(labelContador);
         this.add(botaoReiniciar);
-
-        // Funcionalidade de controle pelo teclado
-
     }
 
     // Gera coordenadas unicas para as minas exceto onde o usuario clicou pela primeira vez
@@ -103,7 +103,6 @@ public class Campo extends JPanel {
 
             coordenada.setLocation(x, y);
             coordenadasMinas.add(coordenada);
-
         }
 
         // Passa por cada mina incrementando o valor numerico dos blocos em volta da mina
@@ -141,12 +140,14 @@ public class Campo extends JPanel {
 
         if (blocos[linha][coluna].getTipo() == TipoBloco.NUMERICO) {
             blocos[linha][coluna].setEstado(EstadoBloco.ABERTO);
-            blocos[linha][coluna].setEnabled(false);
+            // blocos[linha][coluna].setEnabled(false);
+            blocos[linha][coluna].setBackground(Color.GRAY);
             blocos[linha][coluna].setText(String.valueOf(blocos[linha][coluna].getNumero()));
             return;
         } else if (blocos[linha][coluna].getTipo() == TipoBloco.VAZIO) {
             blocos[linha][coluna].setEstado(EstadoBloco.ABERTO);
-            blocos[linha][coluna].setEnabled(false);
+            // blocos[linha][coluna].setEnabled(false);
+            blocos[linha][coluna].setBackground(Color.GRAY);
         }
 
         // Chama recursivamente a funcao ao redor do bloco
@@ -199,7 +200,7 @@ public class Campo extends JPanel {
 
         for (Bloco[] bloco : blocos) {
             for (Bloco value : bloco) {
-                if (value.getEstado() == EstadoBloco.MARCADO || value.getEstado() == EstadoBloco.ABERTO) {
+                if (value.getEstado() == EstadoBloco.MARCADO) {
                     if (value.getTipo() == TipoBloco.MINA) {
                         contador++;
                         System.out.println("Contador: " + contador);
