@@ -7,6 +7,7 @@ import javax.swing.SwingUtilities;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Image;
 
 public class Bloco extends JButton {
     // serve para detectar quando o usuario clicou pela primeira vez na rodada
@@ -47,9 +48,14 @@ public class Bloco extends JButton {
                                 break;
                             case MINA:
                                 Campo.revelarMinas(); // colocar um pop-up indicando q a pessoa perdeu
+                                ImageIcon emojiTriste = new ImageIcon("src/Icones/emojiTriste.png");
+                                Image image = emojiTriste.getImage(); // transforma o ícone em uma imagem
+                                Image newimg = image.getScaledInstance(33, 33,  java.awt.Image.SCALE_SMOOTH); // redimensiona a imagem
+                                emojiTriste = new ImageIcon(newimg);  // transforma a imagem de volta em um ícone
+                                Campo.botaoReiniciar.setIcon(emojiTriste); // define o ícone redimensionado 
                                 JOptionPane.showMessageDialog(null, "Que pena, você perdeu!", "Derrota!", JOptionPane.ERROR_MESSAGE);
                                 // colocando um icon de carinha triste
-
+                               
                                 break;
                         }
                     }

@@ -11,7 +11,7 @@ public class Campo extends JPanel{
     // Foi usado o HashSet para que cada coordenada gerada seja diferente
     private static final Set<Point> coordenadasMinas = new HashSet<>();
     private static JLabel labelContador;
-    private static JButton botaoReiniciar;
+    public static JButton botaoReiniciar;
     private static int contador;
     public static boolean jogoAcabou = false;
     //private static JLabel labelVitoria;
@@ -32,6 +32,8 @@ public class Campo extends JPanel{
         // Passa reiniciando cada bloco, o contador e excluindo as coordenadas de mina
         botaoReiniciar.addActionListener(evento -> {
             Bloco.setPrimeiroClick(false);
+            botaoReiniciar.setIcon(tuglife);
+            //colocar a carinha feliz no botao
             for (Bloco[] bloco : blocos) {
                 for (Bloco value : bloco) {
                     value.reset();
