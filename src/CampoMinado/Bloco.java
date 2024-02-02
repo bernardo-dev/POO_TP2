@@ -53,7 +53,6 @@ public class Bloco extends JButton {
                                 Image newimg = image.getScaledInstance(33, 33,  java.awt.Image.SCALE_SMOOTH); // redimensiona a imagem
                                 emojiTriste = new ImageIcon(newimg);  // transforma a imagem de volta em um ícone
                                 Campo.botaoReiniciar.setIcon(emojiTriste); // define o ícone redimensionado 
-                                JOptionPane.showMessageDialog(null, "Que pena, você perdeu!", "Derrota!", JOptionPane.ERROR_MESSAGE);
                                 // colocando um icon de carinha triste
                                
                                 break;
