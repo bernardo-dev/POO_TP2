@@ -45,7 +45,6 @@ public class Main {
             public void mouseMoved(MouseEvent e) {
                 Point mouseLocation = e.getLocationOnScreen();
                 Point frameLocation = frame.getLocationOnScreen();
-                System.out.println("Mouse moved to (" + mouseLocation.x + ", " + mouseLocation.y + ")");
                 // Verifica se o mouse está no canto inferior esquerdo
                 if (mouseLocation.x - frameLocation.x < 50 && mouseLocation.y - frameLocation.y > frame.getHeight() - 50) {
                     // Substitui a interface do jogo pelo disfarce

@@ -70,7 +70,7 @@ public class Campo extends JPanel {
                                 }
                                 break;
                             case KeyEvent.VK_R:
-                                BotaoReiniciar.reiniciar();
+                                botaoReiniciar.reiniciar();
                                 break;
                         }
                     }
@@ -108,7 +108,6 @@ public class Campo extends JPanel {
         // Passa por cada mina incrementando o valor numerico dos blocos em volta da mina
         for (Point p : coordenadasMinas) {
             blocos[p.x][p.y].setTipo(TipoBloco.MINA);
-            blocos[p.x][p.y].setText("B");
             for (int i = Math.max(0, p.x - 1); i <= Math.min(blocos.length - 1, p.x + 1); i++) {
                 for (int j = Math.max(0, p.y - 1); j <= Math.min(blocos[0].length - 1, p.y + 1); j++) {
                     if (blocos[i][j].getTipo() != TipoBloco.MINA) {
@@ -203,11 +202,9 @@ public class Campo extends JPanel {
                 if (value.getEstado() == EstadoBloco.MARCADO) {
                     if (value.getTipo() == TipoBloco.MINA) {
                         contador++;
-                        System.out.println("Contador: " + contador);
                     }
                 } else if (value.getEstado() == EstadoBloco.ABERTO) { // se os blocos abertos nao forem minas
                     contarBlocoAbero++;
-                    System.out.println("Contar bloco aberto: " + contarBlocoAbero);
                 }
             }
         }
@@ -218,12 +215,10 @@ public class Campo extends JPanel {
         // se o numero de bloco aberto for todos os blocos porem sem ser as minas e
         // se o numero de minas marcadas ou abertas for igual ao numero de minas
         boolean vitoria = contarBlocoAbero == totalBlocos - totalMinas || contador == totalMinas;
-        System.out.println("Verificando vitória: " + vitoria);
+        if (vitoria) {
+            jogoAcabou = true;
+        }
         return vitoria;
-    }
-
-    public static void mostrarVitoria() {
-        JOptionPane.showMessageDialog(null, "Parabéns, você ganhou!", "Vitória", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public static Bloco[][] getBlocos() {
@@ -232,5 +227,14 @@ public class Campo extends JPanel {
 
     public static Set<Point> getCoordenadasMinas() {
         return coordenadasMinas;
+    }
+
+
+    public static boolean getJogoAcabou() {
+        return jogoAcabou;
+    }
+
+    public static void setJogoAcabou(boolean jogoAcabou) {
+        Campo.jogoAcabou = jogoAcabou;
     }
 }
