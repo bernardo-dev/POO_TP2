@@ -5,8 +5,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import java.awt.BorderLayout;
-
 public class Main {
     public static void main(String[] args) {
         try {
@@ -22,8 +20,8 @@ public class Main {
         ImageIcon flag = new ImageIcon("src/Icones/mina.png");
 
         JFrame frame = new JFrame(); // nova interface swing
-        frame.setSize(550, 550);
-        frame.setMinimumSize(new Dimension(900, 600));
+        frame.setSize(500, 600); //
+        frame.setMinimumSize(new Dimension(700, 800));
         frame.setResizable(false);
         frame.setTitle("Campo Minado");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,14 +62,21 @@ public class Main {
                             // Atualiza o frame
                             frame.revalidate();
                             frame.repaint();
+                            frame.setSize(600, 800);
+
                         }
                     });
                     frame.add(disfarce);
+                    frame.setSize(1600, 800);
                     frame.revalidate();
                     frame.repaint();
                 }
             }
         });
+        //frame.setSize(550, 550);
+
         frame.setVisible(true);
+        //frame.setSize(550, 550);
+
     }
 }
