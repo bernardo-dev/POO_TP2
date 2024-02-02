@@ -17,7 +17,7 @@ public class Bloco extends JButton {
     private TipoBloco tipo;
     private int numero; // Quantide de bombas ao redor do bloco
 
-    private Color corOriginal;
+    private final Color corOriginal;
 
     static ImageIcon bandeira = new ImageIcon("src/Icones/bandeira.png");
     static ImageIcon mina = new ImageIcon("src/Icones/mina.png");
