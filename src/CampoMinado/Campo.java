@@ -229,11 +229,6 @@ public class Campo extends JPanel {
         return coordenadasMinas;
     }
 
-
-    public static boolean getJogoAcabou() {
-        return jogoAcabou;
-    }
-
     public static void setJogoAcabou(boolean jogoAcabou) {
         Campo.jogoAcabou = jogoAcabou;
     }

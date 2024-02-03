@@ -15,17 +15,19 @@ public class Main {
                 }
             }
         } catch (Exception e) {
-            // Se Nimbus não está disponível, você pode definir o L&F para qualquer um que você quiser.
+
         }
-        ImageIcon flag = new ImageIcon("src/Icones/mina.png");
+        ImageIcon mina = new ImageIcon("src/Icones/mina.png");
+        ImageIcon code = new ImageIcon("src/Icones/code.png");
 
         JFrame frame = new JFrame(); // nova interface swing
-        frame.setSize(500, 600); //
-        frame.setMinimumSize(new Dimension(700, 800));
+        // expandir a tela
+        frame.setExtendedState(JFrame.MAXIMIZED_VERT);
+        frame.setMinimumSize(new Dimension(500, 500));
         frame.setResizable(false);
         frame.setTitle("Campo Minado");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setIconImage(flag.getImage());
+        frame.setIconImage(mina.getImage());
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);
 
@@ -48,25 +50,11 @@ public class Main {
                     // Substitui a interface do jogo pelo disfarce
                     frame.getContentPane().removeAll();
                     System.out.print("Entrou no canto inferior esquerdo");
-                    JLabel disfarce = new JLabel(new ImageIcon("src/Icones/telaDisfarce.jpeg"));
-                    disfarce.addMouseListener(new MouseAdapter() {
-                        public void mouseClicked(MouseEvent e) {
-                            // Remove todos os componentes
-                            frame.getContentPane().removeAll();
-
-                            // Adiciona de volta os componentes originais
-                            frame.add(controles, BorderLayout.PAGE_START);
-                            frame.add(tabuleiro, BorderLayout.CENTER);
-
-                            // Atualiza o frame
-                            frame.revalidate();
-                            frame.repaint();
-                            frame.setSize(600, 800);
-
-                        }
-                    });
+                    JLabel disfarce = getDisfarce(frame, controles, tabuleiro);
                     frame.add(disfarce);
-                    frame.setSize(1600, 800);
+                    frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                    frame.setIconImage(code.getImage());
+                    frame.setTitle("");
                     frame.revalidate();
                     frame.repaint();
                 }
@@ -77,5 +65,35 @@ public class Main {
         frame.setVisible(true);
         //frame.setSize(550, 550);
 
+    }
+
+    private static JLabel getDisfarce(JFrame frame, JPanel controles, Campo tabuleiro) {
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        ImageIcon iconeVscode = new ImageIcon("src/Icones/telaDisfarce.jpeg");
+        Image imagem = iconeVscode.getImage();
+        Image novaImagem = imagem.getScaledInstance(screenSize.width, screenSize.height, Image.SCALE_SMOOTH);
+        ImageIcon vscode = new ImageIcon(novaImagem);
+
+        JLabel disfarce = new JLabel(vscode);
+
+        disfarce.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                // Remove todos os componentes
+                frame.getContentPane().removeAll();
+
+                // Adiciona de volta os componentes originais
+                frame.add(controles, BorderLayout.PAGE_START);
+                frame.add(tabuleiro, BorderLayout.CENTER);
+                frame.setIconImage(new ImageIcon("src/Icones/mina.png").getImage());
+                frame.setTitle("Campo Minado");
+
+                // Atualiza o frame
+                frame.revalidate();
+                frame.repaint();
+                frame.setSize(500, 500);
+                frame.setLocationRelativeTo(null);
+            }
+        });
+        return disfarce;
     }
 }

@@ -2,7 +2,6 @@ package CampoMinado;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -75,10 +74,8 @@ public class Bloco extends JButton {
                     setText(String.valueOf(getNumero()));
                     break;
                 case MINA:
-                    Campo.revelarMinas(); // colocar um pop-up indicando q a pessoa perdeu
-                    JOptionPane.showMessageDialog(null, "Que pena, você perdeu!", "Derrota!", JOptionPane.ERROR_MESSAGE);
-                    // colocando um icon de carinha triste
-
+                    Campo.revelarMinas();
+                    Campo.getBotaoReiniciar().setIconeTriste();
                     break;
             }
         }
@@ -92,7 +89,7 @@ public class Bloco extends JButton {
                     this.setIconeMarcado();
                     this.setEstado(EstadoBloco.MARCADO);
                     if (Campo.verificarVitoria()) {
-                        Campo.mostrarVitoria();
+                        Campo.getBotaoReiniciar().setIconeTugLife();
                     }
                 }
                 break;
