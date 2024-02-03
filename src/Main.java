@@ -48,6 +48,11 @@ public class Main {
         frame.add(controles, BorderLayout.PAGE_START);
         frame.add(tabuleiro, BorderLayout.CENTER);
 
+        JLabel instrucoes = new JLabel("<html>Use as setas para mover o foco<br>Pressione espaço para marcar um bloco<br>Pressione Enter para abrir um bloco</html>");
+        // mostrar um texto indicando os comandos do teclado
+        instrucoes.setHorizontalAlignment(JLabel.CENTER);
+        frame.add(instrucoes, BorderLayout.PAGE_END);
+
         // Adiciona um listener para quando o mouse se mover
         frame.addMouseMotionListener(new MouseAdapter() {
             public void mouseMoved(MouseEvent e) {
@@ -59,7 +64,7 @@ public class Main {
                     frame.getContentPane().removeAll();
                     System.out.print("Entrou no canto inferior esquerdo");
                     // Cria o disfarce
-                    JLabel disfarce = getDisfarce(frame, controles, tabuleiro); 
+                    JLabel disfarce = getDisfarce(frame, controles, tabuleiro, instrucoes); 
                     frame.add(disfarce);
                     // Maximiza a janela
                     frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
@@ -75,7 +80,7 @@ public class Main {
 
     }
 
-    private static JLabel getDisfarce(JFrame frame, JPanel controles, Campo tabuleiro) {
+    private static JLabel getDisfarce(JFrame frame, JPanel controles, Campo tabuleiro, JLabel instrucoes) {
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         ImageIcon iconeVscode = new ImageIcon("src/Icones/telaDisfarce.jpeg");
         Image imagem = iconeVscode.getImage();
@@ -95,6 +100,7 @@ public class Main {
                 // Adiciona de volta os componentes originais
                 frame.add(controles, BorderLayout.PAGE_START);
                 frame.add(tabuleiro, BorderLayout.CENTER);
+                frame.add(instrucoes, BorderLayout.PAGE_END);
                 frame.setIconImage(new ImageIcon("src/Icones/mina.png").getImage());
                 frame.setTitle("Campo Minado");
 
