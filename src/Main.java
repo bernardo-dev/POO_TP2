@@ -70,10 +70,8 @@ public class Main {
                 }
             }
         });
-        //frame.setSize(550, 550);
 
         frame.setVisible(true);
-        //frame.setSize(550, 550);
 
     }
 
