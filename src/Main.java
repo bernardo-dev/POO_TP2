@@ -8,8 +8,10 @@ import java.awt.event.MouseEvent;
 public class Main {
     public static void main(String[] args) {
         try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+            // Tenta aplicar o tema Nimbus
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) { 
+                // Se encontrar o tema Nimbus
+                if ("Nimbus".equals(info.getName())) { 
                     UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -17,20 +19,24 @@ public class Main {
         } catch (Exception e) {
             System.err.println("Não foi possível aplicar o tema Nimbus");
         }
+
+        // Cria ícones a partir de arquivos de imagem
+
         ImageIcon mina = new ImageIcon("src/Icones/mina.png");
         ImageIcon code = new ImageIcon("src/Icones/code.png");
 
-        JFrame frame = new JFrame(); // nova interface swing
+        // Cria uma nova janela JFrame
+        JFrame frame = new JFrame(); 
         // expandir a tela
-        frame.setExtendedState(JFrame.MAXIMIZED_VERT);
         frame.setMinimumSize(new Dimension(500, 500));
         frame.setResizable(false);
         frame.setTitle("Campo Minado");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setIconImage(mina.getImage());
         frame.setLayout(new BorderLayout());
-        frame.setLocationRelativeTo(null);
+        frame.setLocationRelativeTo(null); // Centraliza a janela
 
+        // Cria o campo de jogo
         Campo tabuleiro = new Campo();
 
         JPanel controles = new JPanel();
@@ -38,9 +44,11 @@ public class Main {
         controles.add(Campo.getBotaoReiniciar());
 
 
+        // Cria um painel para os controles do jogo
         frame.add(controles, BorderLayout.PAGE_START);
         frame.add(tabuleiro, BorderLayout.CENTER);
 
+        // Adiciona um listener para quando o mouse se mover
         frame.addMouseMotionListener(new MouseAdapter() {
             public void mouseMoved(MouseEvent e) {
                 Point mouseLocation = e.getLocationOnScreen();
@@ -50,9 +58,11 @@ public class Main {
                     // Substitui a interface do jogo pelo disfarce
                     frame.getContentPane().removeAll();
                     System.out.print("Entrou no canto inferior esquerdo");
-                    JLabel disfarce = getDisfarce(frame, controles, tabuleiro);
+                    // Cria o disfarce
+                    JLabel disfarce = getDisfarce(frame, controles, tabuleiro); 
                     frame.add(disfarce);
-                    frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                    // Maximiza a janela
+                    frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
                     frame.setIconImage(code.getImage());
                     frame.setTitle("");
                     frame.revalidate();
@@ -74,8 +84,11 @@ public class Main {
         Image novaImagem = imagem.getScaledInstance(screenSize.width, screenSize.height, Image.SCALE_SMOOTH);
         ImageIcon vscode = new ImageIcon(novaImagem);
 
-        JLabel disfarce = new JLabel(vscode);
 
+        //Cria um JLabel com a imagem do disfarce
+        JLabel disfarce = new JLabel(vscode); 
+
+        // Adiciona um listener para quando o usuário clicar na tela
         disfarce.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 // Remove todos os componentes

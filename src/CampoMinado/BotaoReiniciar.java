@@ -2,12 +2,16 @@ package CampoMinado;
 
 import javax.swing.*;
 
+// Botão que reinicia o jogo
 public class BotaoReiniciar extends JButton {
     public BotaoReiniciar() {
         this.setIconeFeliz();
-        this.setFocusable(false);
 
-        this.addActionListener(evento -> reiniciar());
+        // Remove o foco do botão
+        this.setFocusable(false); 
+
+        // Adiciona um listener para quando o botão for clicado
+        this.addActionListener(evento -> reiniciar()); 
     }
 
     public void reiniciar() {
@@ -24,23 +28,28 @@ public class BotaoReiniciar extends JButton {
             }
         }
 
+        // Limpa as coordenadas das minas
         Campo.getCoordenadasMinas().clear();
         Campo.setJogoAcabou(false);
 
+        // Atualiza o contador
         Campo.getLabelContador().reset();
         Campo.getLabelContador().atualizarContador();
     }
-
+    
+    // Define o ícone do botão para o ícone feliz
     public void setIconeFeliz() {
         ImageIcon tuglife = new ImageIcon("src/Icones/feliz.png");
         this.setIcon(tuglife);
     }
 
+    // Define o ícone do botão para o ícone tristew
     public void setIconeTriste() {
         ImageIcon triste = new ImageIcon("src/Icones/triste.png");
         this.setIcon(triste);
     }
 
+    // Define o ícone do botão para o ícone de tugs
     public void setIconeTugLife() {
         ImageIcon tuglife = new ImageIcon("src/Icones/tuglife.png");
         this.setIcon(tuglife);

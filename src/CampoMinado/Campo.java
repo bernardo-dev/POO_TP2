@@ -11,18 +11,27 @@ public class Campo extends JPanel {
     private static Bloco[][] blocos;
     // Foi usado o HashSet para que cada coordenada gerada seja diferente
     private static final Set<Point> coordenadasMinas = new HashSet<>();
+
+    // Variavel que indica se o jogo acabou
     public static boolean jogoAcabou = false;
-    //private static JLabel labelVitoria;
+
+
+    // Contador de minas marcadas
     private static LabelContador labelContador;
+
+
+    // Botao para reiniciar o jogo
     private static BotaoReiniciar botaoReiniciar;
 
     public Campo() {
         this(9, 9);
     }
 
+    // Cria um campo de jogo com o numero de linhas e colunas especificado
     public Campo(int linhas, int colunas) {
         blocos = new Bloco[linhas][colunas];
-        this.setLayout(new GridLayout(linhas, colunas));
+        // Define o layout do campo
+        this.setLayout(new GridLayout(linhas, colunas)); 
 
         // Inicializa cada bloco e adiciona o controle por teclado
         for (int i = 0; i < linhas; i++) {
@@ -37,38 +46,43 @@ public class Campo extends JPanel {
                     @Override
                     public void keyPressed(KeyEvent e) {
                         switch (e.getKeyCode()) {
+                            // Move o foco para o bloco de cima
                             case KeyEvent.VK_UP:
-                                System.out.println("Cima");
                                 if (linhaAtual == 0) {
                                     blocos[linhaAtual + linhas - 1][colunaAtual].requestFocus();
                                 } else {
                                     blocos[linhaAtual - 1][colunaAtual].requestFocus();
                                 }
                                 break;
+
+                            // Move o foco para o bloco de baixo
                             case KeyEvent.VK_DOWN:
-                                System.out.println("Baixo");
                                 if (linhaAtual == linhas - 1) {
                                     blocos[0][colunaAtual].requestFocus();
                                 } else {
                                     blocos[linhaAtual + 1][colunaAtual].requestFocus();
                                 }
                                 break;
+
+                            // Move o foco para o bloco a esquerda
                             case KeyEvent.VK_LEFT:
-                                System.out.println("Esquerda");
                                 if (colunaAtual == 0) {
                                     blocos[linhaAtual][colunas - 1].requestFocus();
                                 } else {
                                     blocos[linhaAtual][colunaAtual - 1].requestFocus();
                                 }
                                 break;
+
+                            // Move o foco para o bloco a direita
                             case KeyEvent.VK_RIGHT:
-                                System.out.println("Direita");
                                 if (colunaAtual == colunas - 1) {
                                     blocos[linhaAtual][0].requestFocus();
                                 } else {
                                     blocos[linhaAtual][colunaAtual + 1].requestFocus();
                                 }
                                 break;
+
+                            // Abre o bloco
                             case KeyEvent.VK_R:
                                 botaoReiniciar.reiniciar();
                                 break;
@@ -79,6 +93,7 @@ public class Campo extends JPanel {
             }
         }
 
+        // Inicializa o contador e o botao de reiniciar
         labelContador = new LabelContador();
         botaoReiniciar = new BotaoReiniciar();
         botaoReiniciar.requestFocus(false);
@@ -101,6 +116,7 @@ public class Campo extends JPanel {
 
             Point coordenada = new Point();
 
+            // Se a coordenada ja foi gerada, gera outra coordenada
             coordenada.setLocation(x, y);
             coordenadasMinas.add(coordenada);
         }
@@ -139,13 +155,11 @@ public class Campo extends JPanel {
 
         if (blocos[linha][coluna].getTipo() == TipoBloco.NUMERICO) {
             blocos[linha][coluna].setEstado(EstadoBloco.ABERTO);
-            // blocos[linha][coluna].setEnabled(false);
             blocos[linha][coluna].setBackground(Color.GRAY);
             blocos[linha][coluna].setText(String.valueOf(blocos[linha][coluna].getNumero()));
             return;
         } else if (blocos[linha][coluna].getTipo() == TipoBloco.VAZIO) {
             blocos[linha][coluna].setEstado(EstadoBloco.ABERTO);
-            // blocos[linha][coluna].setEnabled(false);
             blocos[linha][coluna].setBackground(Color.GRAY);
         }
 
@@ -154,9 +168,11 @@ public class Campo extends JPanel {
         revelarBlocos(linha - 1, coluna);
         revelarBlocos(linha - 1, coluna + 1);
 
+        // Chama recursivamente a funcao ao redor do bloco
         revelarBlocos(linha, coluna - 1);
         revelarBlocos(linha, coluna + 1);
 
+        // Chama recursivamente a funcao ao redor do bloco
         revelarBlocos(linha + 1, coluna - 1);
         revelarBlocos(linha + 1, coluna);
         revelarBlocos(linha + 1, coluna + 1);
@@ -171,9 +187,11 @@ public class Campo extends JPanel {
             bloco.setIconeMina();
         }
 
+        // Se o jogo acabou, muda o icone do botao de reiniciar
         jogoAcabou = true;
     }
 
+    // Getter e Setter do botão de reiniciar e o contador de minas marcadas
     public static LabelContador getLabelContador() {
         return labelContador;
     }
@@ -197,6 +215,8 @@ public class Campo extends JPanel {
             return false;
         }
 
+
+        // Passa por cada bloco verificando se ele foi marcado ou aberto e se ele é uma mina
         for (Bloco[] bloco : blocos) {
             for (Bloco value : bloco) {
                 if (value.getEstado() == EstadoBloco.MARCADO) {
@@ -209,6 +229,7 @@ public class Campo extends JPanel {
             }
         }
 
+        // Calcula o numero total de blocos e minas
         int totalBlocos = blocos.length * blocos[0].length;
         int totalMinas = coordenadasMinas.size();
 
