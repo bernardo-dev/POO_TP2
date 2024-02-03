@@ -52,7 +52,7 @@ public class Main {
         // mostrar um texto indicando os comandos do teclado
         instrucoes.setHorizontalAlignment(JLabel.CENTER);
         frame.add(instrucoes, BorderLayout.PAGE_END);
-
+        
         // Adiciona um listener para quando o mouse se mover
         frame.addMouseMotionListener(new MouseAdapter() {
             public void mouseMoved(MouseEvent e) {
