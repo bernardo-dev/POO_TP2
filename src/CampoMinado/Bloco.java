@@ -45,6 +45,9 @@ public class Bloco extends JButton {
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
+                if (Campo.jogoAcabou) {
+                    return;
+                }
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_ENTER:
                         tentarAbrir(linha, coluna);
