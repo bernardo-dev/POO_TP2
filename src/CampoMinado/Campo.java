@@ -3,8 +3,10 @@ package CampoMinado;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
 import java.util.HashSet;
 import java.util.Set;
+import java.awt.event.KeyEvent;
 
 public class Campo extends JPanel{
     private static Bloco[][] blocos;
@@ -54,12 +56,63 @@ public class Campo extends JPanel{
         blocos = new Bloco[linhas][colunas];
         this.setLayout(new GridLayout(linhas, colunas));
 
-        for (int i = 0; i < linhas; i++) {
+         // Inicializa cada bloco e adiciona o controle por teclado
+         for (int i = 0; i < linhas; i++) {
             for (int j = 0; j < colunas; j++) {
                 blocos[i][j] = new Bloco(i, j);
+                int finalI = i;
+                int finalJ = j;
+                blocos[i][j].addKeyListener(new KeyAdapter() {
+                    final int linhaAtual = finalI;
+                    final int colunaAtual = finalJ;
+
+                    
+                    public void keyPressed(KeyEvent e) {
+                        switch (e.getKeyCode()) {
+                            case KeyEvent.VK_UP:
+                                System.out.println("Cima");
+                                if (linhaAtual == 0) {
+                                    blocos[linhaAtual + linhas - 1][colunaAtual].requestFocus();
+                                } else {
+                                    blocos[linhaAtual - 1][colunaAtual].requestFocus();
+                                }
+                                break;
+                            case KeyEvent.VK_DOWN:
+                                System.out.println("Baixo");
+                                if (linhaAtual == linhas - 1) {
+                                    blocos[0][colunaAtual].requestFocus();
+                                } else {
+                                    blocos[linhaAtual + 1][colunaAtual].requestFocus();
+                                }
+                                break;
+                            case KeyEvent.VK_LEFT:
+                                System.out.println("Esquerda");
+                                if (colunaAtual == 0) {
+                                    blocos[linhaAtual][colunas - 1].requestFocus();
+                                } else {
+                                    blocos[linhaAtual][colunaAtual - 1].requestFocus();
+                                }
+                                break;
+                            case KeyEvent.VK_RIGHT:
+                                System.out.println("Direita");
+                                if (colunaAtual == colunas - 1) {
+                                    blocos[linhaAtual][0].requestFocus();
+                                } else {
+                                    blocos[linhaAtual][colunaAtual + 1].requestFocus();
+                                }
+                                break;
+                            case KeyEvent.VK_R:
+                                // reiniciar botao
+                                botaoReiniciar.doClick();
+                                break;
+                        }
+                    }
+                });
                 this.add(blocos[i][j]);
             }
         }
+
+        
     }
 
     // Gera coordenadas unicas para as minas exceto onde o usuario clicou pela primeira vez

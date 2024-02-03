@@ -2,12 +2,14 @@ package CampoMinado;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.Image;
+import java.awt.Color;
 
 public class Bloco extends JButton {
     // serve para detectar quando o usuario clicou pela primeira vez na rodada
@@ -63,9 +65,54 @@ public class Bloco extends JButton {
                 }
             }
         });
+
+        this.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_ENTER: // se o usuario apertar enter, abre o bloco
+                        tentarAbrir(linha, coluna);
+                        break;
+                    case KeyEvent.VK_SPACE: // alterna entre colocar bandeira ou não
+                        alterarMarcado();
+                        break;
+                }
+            }
+        });
     }
 
     // Logica das bandeiras, coloca bandeira apenas em blocos que nao foram abertos pelo usuario ainda
+
+    private void tentarAbrir(int linha, int coluna) {
+        if (!primeiroClick && (tipo == TipoBloco.VAZIO) && (estado != EstadoBloco.MARCADO)) {
+            Campo.gerarMinas(10, linha, coluna);
+            primeiroClick = true;
+        }
+        if (estado == EstadoBloco.FECHADO) {
+            switch (tipo) {
+                case VAZIO:
+                    Campo.revelarBlocos(linha, coluna);
+                    break;
+                case NUMERICO:
+                    // setEnabled(false);
+                    setBackground(Color.GRAY);
+                    setEstado(EstadoBloco.ABERTO);
+                    setText(String.valueOf(getNumero()));
+                    break;
+                case MINA:
+                    Campo.revelarMinas(); // colocar um pop-up indicando q a pessoa perdeu
+                    ImageIcon emojiTriste = new ImageIcon("src/Icones/emojiTriste.png");
+                    Image image = emojiTriste.getImage(); // transforma o ícone em uma imagem
+                    Image newimg = image.getScaledInstance(33, 33,  java.awt.Image.SCALE_SMOOTH); // redimensiona a imagem
+                    emojiTriste = new ImageIcon(newimg);  // transforma a imagem de volta em um ícone
+                    Campo.botaoReiniciar.setIcon(emojiTriste); // define o ícone redimensionado 
+                                // colocando um icon de carinha triste
+
+                    break;
+            }
+        }
+    }
+
     private void alterarMarcado() {
         switch (estado) {
             case FECHADO:
@@ -154,6 +201,9 @@ public class Bloco extends JButton {
         // Remove qualquer ícone ou texto que possa estar presente
         this.setIcon(null);
         this.setText("");
+        // Remove a cor de fundo
+        this.setBackground(null);
+
 
         // Redefine o estado do jogo
         setPrimeiroClick(false);
