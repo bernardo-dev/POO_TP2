@@ -6,15 +6,22 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Main {
+
+    // Salva o tamanho original do frame
+    private static Dimension originalSize; 
     public static void main(String[] args) {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                // Verifica se o nome do tema atual é "Nimbus"
                 if ("Nimbus".equals(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());
+                    // Interrompe o loop, pois já encontramos e aplicamos o tema desejado
                     break;
                 }
             }
         } catch (Exception e) {
+            // // Se houver algum erro ao tentar aplicar o tema (por exemplo, o tema não está instalado), 
+            // imprime uma mensagem de erro no console
             System.err.println("Não foi possível aplicar o tema Nimbus");
         }
         ImageIcon mina = new ImageIcon("src/Icones/mina.png");
@@ -22,7 +29,7 @@ public class Main {
 
         JFrame frame = new JFrame(); // nova interface swing
         // expandir a tela
-        frame.setExtendedState(JFrame.MAXIMIZED_VERT);
+        
         frame.setMinimumSize(new Dimension(500, 500));
         frame.setResizable(false);
         frame.setTitle("Campo Minado");
@@ -41,6 +48,9 @@ public class Main {
         frame.add(controles, BorderLayout.PAGE_START);
         frame.add(tabuleiro, BorderLayout.CENTER);
 
+        originalSize = frame.getSize();
+
+
         frame.addMouseMotionListener(new MouseAdapter() {
             public void mouseMoved(MouseEvent e) {
                 Point mouseLocation = e.getLocationOnScreen();
@@ -52,7 +62,7 @@ public class Main {
                     System.out.print("Entrou no canto inferior esquerdo");
                     JLabel disfarce = getDisfarce(frame, controles, tabuleiro);
                     frame.add(disfarce);
-                    frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                    frame.setSize(1500, 650);
                     frame.setIconImage(code.getImage());
                     frame.setTitle("");
                     frame.revalidate();
@@ -60,10 +70,8 @@ public class Main {
                 }
             }
         });
-        //frame.setSize(550, 550);
 
         frame.setVisible(true);
-        //frame.setSize(550, 550);
 
     }
 
@@ -90,7 +98,9 @@ public class Main {
                 // Atualiza o frame
                 frame.revalidate();
                 frame.repaint();
-                frame.setSize(500, 500);
+                frame.setSize(originalSize); // Redefina o tamanho do quadro para o tamanho original
+
+
                 frame.setLocationRelativeTo(null);
             }
         });
