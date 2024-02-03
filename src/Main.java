@@ -48,7 +48,7 @@ public class Main {
         frame.add(controles, BorderLayout.PAGE_START);
         frame.add(tabuleiro, BorderLayout.CENTER);
 
-        JLabel instrucoes = new JLabel("<html>Use as setas para mover o foco<br>Pressione espaço para marcar um bloco<br>Pressione Enter para abrir um bloco</html>");
+        JLabel instrucoes = new JLabel("<html>Use as setas para mover o foco<br>Pressione espaço para marcar um bloco<br>Pressione Enter para abrir um bloco<br>Clicar R para reiniciar</html>");
         // mostrar um texto indicando os comandos do teclado
         instrucoes.setHorizontalAlignment(JLabel.CENTER);
         frame.add(instrucoes, BorderLayout.PAGE_END);
