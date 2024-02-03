@@ -15,7 +15,7 @@ public class Main {
                 }
             }
         } catch (Exception e) {
-
+            System.err.println("Não foi possível aplicar o tema Nimbus");
         }
         ImageIcon mina = new ImageIcon("src/Icones/mina.png");
         ImageIcon code = new ImageIcon("src/Icones/code.png");
