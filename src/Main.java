@@ -22,8 +22,8 @@ public class Main {
 
         // Cria ícones a partir de arquivos de imagem
 
-        ImageIcon mina = new ImageIcon("src/Icones/mina.png");
-        ImageIcon code = new ImageIcon("src/Icones/code.png");
+        ImageIcon mina = new ImageIcon(Main.class.getResource("/Icones/mina.png"));
+        ImageIcon code = new ImageIcon(Main.class.getResource("/Icones/code.png"));
 
         // Cria uma nova janela JFrame
         JFrame frame = new JFrame(); 
@@ -62,7 +62,6 @@ public class Main {
                 if (mouseLocation.x - frameLocation.x < 50 && mouseLocation.y - frameLocation.y > frame.getHeight() - 50) {
                     // Substitui a interface do jogo pelo disfarce
                     frame.getContentPane().removeAll();
-                    System.out.print("Entrou no canto inferior esquerdo");
                     // Cria o disfarce
                     JLabel disfarce = getDisfarce(frame, controles, tabuleiro, instrucoes); 
                     frame.add(disfarce);
@@ -82,7 +81,7 @@ public class Main {
 
     private static JLabel getDisfarce(JFrame frame, JPanel controles, Campo tabuleiro, JLabel instrucoes) {
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        ImageIcon iconeVscode = new ImageIcon("src/Icones/telaDisfarce.jpeg");
+        ImageIcon iconeVscode = new ImageIcon(Main.class.getResource("/Icones/telaDisfarce.jpeg"));
         Image imagem = iconeVscode.getImage();
         Image novaImagem = imagem.getScaledInstance(screenSize.width, screenSize.height, Image.SCALE_SMOOTH);
         ImageIcon vscode = new ImageIcon(novaImagem);
@@ -101,7 +100,7 @@ public class Main {
                 frame.add(controles, BorderLayout.PAGE_START);
                 frame.add(tabuleiro, BorderLayout.CENTER);
                 frame.add(instrucoes, BorderLayout.PAGE_END);
-                frame.setIconImage(new ImageIcon("src/Icones/mina.png").getImage());
+                frame.setIconImage(new ImageIcon(Main.class.getResource("/Icones/mina.png")).getImage());
                 frame.setTitle("Campo Minado");
 
                 // Atualiza o frame

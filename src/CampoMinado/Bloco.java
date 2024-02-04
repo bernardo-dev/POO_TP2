@@ -18,8 +18,8 @@ public class Bloco extends JButton {
 
     private final Color corOriginal;
 
-    static ImageIcon bandeira = new ImageIcon("src/Icones/bandeira.png");
-    static ImageIcon mina = new ImageIcon("src/Icones/mina.png");
+    static ImageIcon bandeira = new ImageIcon(Bloco.class.getResource("/Icones/bandeira.png"));
+    static ImageIcon mina = new ImageIcon(Bloco.class.getResource("/Icones/mina.png"));
 
     public Bloco(int linha, int coluna) {
         estado = EstadoBloco.FECHADO;

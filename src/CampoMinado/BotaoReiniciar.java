@@ -2,6 +2,8 @@ package CampoMinado;
 
 import javax.swing.*;
 
+import com.sun.tools.javac.Main;
+
 // Botão que reinicia o jogo
 public class BotaoReiniciar extends JButton {
     public BotaoReiniciar() {
@@ -39,19 +41,19 @@ public class BotaoReiniciar extends JButton {
     
     // Define o ícone do botão para o ícone feliz
     public void setIconeFeliz() {
-        ImageIcon tuglife = new ImageIcon("src/Icones/feliz.png");
+        ImageIcon tuglife = new ImageIcon(BotaoReiniciar.class.getResource("/Icones/feliz.png"));
         this.setIcon(tuglife);
     }
 
     // Define o ícone do botão para o ícone tristew
     public void setIconeTriste() {
-        ImageIcon triste = new ImageIcon("src/Icones/triste.png");
+        ImageIcon triste = new ImageIcon(BotaoReiniciar.class.getResource("/Icones/triste.png"));
         this.setIcon(triste);
     }
 
     // Define o ícone do botão para o ícone de tugs
     public void setIconeTugLife() {
-        ImageIcon tuglife = new ImageIcon("src/Icones/tuglife.png");
+        ImageIcon tuglife = new ImageIcon(BotaoReiniciar.class.getResource("/Icones/tuglife.png"));
         this.setIcon(tuglife);
     }
 }
